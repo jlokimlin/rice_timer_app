@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Rice_timer</string>
+    <string name="hello_world">Hellur Gogi bear!!!</string>
+    <string name="timer_button">Long-grain rice timers</string>
+    <string name="jasmine_button">Jasmine rice timers</string>
+    <string name="basmati_button">Basmati rice timers</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
