@@ -18,40 +18,40 @@ public class AddRiceTimer extends Activity {
     }
 
     public void startRice(View v) {
-        // Set the 4 min timer
+        // Set the 3.5 min timer
         Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
-        i.putExtra(AlarmClock.EXTRA_LENGTH,240);
-        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Long-grain rice 4 min");
-        i.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(i);
-        // Set the 18 min timer
-        Intent j =new Intent(AlarmClock.ACTION_SET_TIMER);
-        j.putExtra(AlarmClock.EXTRA_LENGTH,1080);
-        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Long-grain rice 18 min");
-        j.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(j);
-        // Rest the rice for 10 minutes
-        Intent k =new Intent(AlarmClock.ACTION_SET_TIMER);
-        k.putExtra(AlarmClock.EXTRA_LENGTH,1680);
-        k.putExtra(AlarmClock.EXTRA_MESSAGE,"Long-grain rice resting period");
-        k.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(k);
-    }
-    public void startJasmine(View v) {
-        Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
-        i.putExtra(AlarmClock.EXTRA_LENGTH,240);
-        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice 4 min");
+        i.putExtra(AlarmClock.EXTRA_LENGTH,210);
+        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Bring rice to boil - 3.5 min");
         i.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(i);
         // Set the 15 min timer
         Intent j =new Intent(AlarmClock.ACTION_SET_TIMER);
         j.putExtra(AlarmClock.EXTRA_LENGTH,900);
-        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice 15 min");
+        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Cook rice - 15 min");
         j.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(j);
         // Rest the rice for 10 minutes
         Intent k =new Intent(AlarmClock.ACTION_SET_TIMER);
         k.putExtra(AlarmClock.EXTRA_LENGTH,1500);
+        k.putExtra(AlarmClock.EXTRA_MESSAGE,"Rest rice - 10 min");
+        k.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
+        startActivity(k);
+    }
+/*    public void startJasmine(View v) {
+        Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
+        i.putExtra(AlarmClock.EXTRA_LENGTH,240);
+        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice - bring to boil - 4 min");
+        i.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
+        startActivity(i);
+        // Set the 15 min timer
+        Intent j =new Intent(AlarmClock.ACTION_SET_TIMER);
+        j.putExtra(AlarmClock.EXTRA_LENGTH,840);
+        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice 14 min");
+        j.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
+        startActivity(j);
+        // Rest the rice for 10 minutes
+        Intent k =new Intent(AlarmClock.ACTION_SET_TIMER);
+        k.putExtra(AlarmClock.EXTRA_LENGTH,1440);
         k.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice resting period");
         k.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(k);
@@ -59,7 +59,7 @@ public class AddRiceTimer extends Activity {
     public void startBasmati(View v) {
         Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
         i.putExtra(AlarmClock.EXTRA_LENGTH,300);
-        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Basmati rice 5 min");
+        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Basmati rice - bring to boil - 5 min");
         i.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(i);
         // Set the 16 min timer
@@ -74,7 +74,7 @@ public class AddRiceTimer extends Activity {
         k.putExtra(AlarmClock.EXTRA_MESSAGE,"Basmati rice resting period");
         k.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(k);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
