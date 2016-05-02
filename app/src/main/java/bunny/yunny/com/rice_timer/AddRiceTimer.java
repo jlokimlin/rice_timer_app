@@ -19,23 +19,29 @@ public class AddRiceTimer extends Activity {
 
     public void startRice(View v) {
         // Set the 3.5 min timer
-        Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
-        i.putExtra(AlarmClock.EXTRA_LENGTH,210);
-        i.putExtra(AlarmClock.EXTRA_MESSAGE,"Bring rice to boil - 3.5 min");
-        i.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(i);
-        // Set the 15 min timer
-        Intent j =new Intent(AlarmClock.ACTION_SET_TIMER);
-        j.putExtra(AlarmClock.EXTRA_LENGTH,900);
-        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Cook rice - 15 min");
-        j.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(j);
-        // Rest the rice for 10 minutes
-        Intent k =new Intent(AlarmClock.ACTION_SET_TIMER);
-        k.putExtra(AlarmClock.EXTRA_LENGTH,1500);
-        k.putExtra(AlarmClock.EXTRA_MESSAGE,"Rest rice - 10 min");
-        k.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
-        startActivity(k);
+        try {
+            Intent i = new Intent(AlarmClock.ACTION_SET_TIMER);
+            i.putExtra(AlarmClock.EXTRA_LENGTH, 210);
+            i.putExtra(AlarmClock.EXTRA_MESSAGE, "Bring rice to boil - 3.5 min");
+            i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            startActivity(i);
+            Thread.sleep(1000);
+            // Set the 15 min timer
+            Intent j = new Intent(AlarmClock.ACTION_SET_TIMER);
+            j.putExtra(AlarmClock.EXTRA_LENGTH, 900);
+            j.putExtra(AlarmClock.EXTRA_MESSAGE, "Cook rice - 15 min");
+            j.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            startActivity(j);
+            Thread.sleep(1000);
+            // Rest the rice for 10 minutes
+            Intent k = new Intent(AlarmClock.ACTION_SET_TIMER);
+            k.putExtra(AlarmClock.EXTRA_LENGTH, 1500);
+            k.putExtra(AlarmClock.EXTRA_MESSAGE, "Rest rice - 10 min");
+            k.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            startActivity(k);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 /*    public void startJasmine(View v) {
         Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
@@ -46,7 +52,7 @@ public class AddRiceTimer extends Activity {
         // Set the 15 min timer
         Intent j =new Intent(AlarmClock.ACTION_SET_TIMER);
         j.putExtra(AlarmClock.EXTRA_LENGTH,840);
-        j.putExtra(AlarmClock.EXTRA_MESSAGE,"Jasmine rice 14 min");
+        j.putExtra(AlarmC;lock.EXTRA_MESSAGE,"Jasmine rice 14 min");
         j.putExtra(AlarmClock.EXTRA_SKIP_UI,true);
         startActivity(j);
         // Rest the rice for 10 minutes
