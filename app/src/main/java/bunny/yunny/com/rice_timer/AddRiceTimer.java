@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.AlarmClock;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +15,10 @@ import shortbread.Shortcut;
 
 public class AddRiceTimer extends Activity {
 
+    public static final int REST_RICE = 1500;
+    public static final int COOK_RICE = 900;
+    public static final int BRING_RICE_TO_BOIL = 210;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,15 +26,16 @@ public class AddRiceTimer extends Activity {
         setContentView(R.layout.activity_add_rice_timer);
     }
 
-    public void setTimer(final String message, final int timer_length) {
+    public void setTimer(final String message, final int seconds) {
         new Thread(new Runnable() {
             public void run() {
                 Intent met = new Intent(AlarmClock.ACTION_SET_TIMER);
-                met.putExtra(AlarmClock.EXTRA_LENGTH, timer_length);
+                met.putExtra(AlarmClock.EXTRA_LENGTH, seconds);
                 met.putExtra(AlarmClock.EXTRA_MESSAGE, message);
                 met.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
                 startActivity(met);
-                System.out.println("Set timer of len " + timer_length + " seconds with message " + message);
+
+                Log.v("Rice timer", "Set timer of len " + seconds + " seconds with message " + message);
             }
         }).start();
     }
@@ -50,29 +56,12 @@ public class AddRiceTimer extends Activity {
 
     @Shortcut(id = "startRiceId", icon = R.drawable.myshape, shortLabel = "Long grain rice")
     public void startRice() {
-        try {
-            Intent i = new Intent(AlarmClock.ACTION_SET_TIMER);
-            i.putExtra(AlarmClock.EXTRA_LENGTH, 210);
-            i.putExtra(AlarmClock.EXTRA_MESSAGE, "Bring rice to boil - 3.5 min");
-            i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-            startActivity(i);
-            Thread.sleep(1000);
-            // Set the 15 min timer
-            Intent j = new Intent(AlarmClock.ACTION_SET_TIMER);
-            j.putExtra(AlarmClock.EXTRA_LENGTH, 900);
-            j.putExtra(AlarmClock.EXTRA_MESSAGE, "Cook rice - 15 min");
-            j.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-            startActivity(j);
-            Thread.sleep(1000);
-            // Rest the rice for 10 minutes
-            Intent k = new Intent(AlarmClock.ACTION_SET_TIMER);
-            k.putExtra(AlarmClock.EXTRA_LENGTH, 1500);
-            k.putExtra(AlarmClock.EXTRA_MESSAGE, "Rest rice - 10 min");
-            k.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-            startActivity(k);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Log.v("Rice timer", "Started rice timer");
+        setTimer("Boil rice", BRING_RICE_TO_BOIL);
+        // Set the 15 min timer
+        setTimer("Cook rice", COOK_RICE);
+        // Rest rice
+        setTimer("Rest rice", REST_RICE);
     }
 
     public void startRice(View v) {
