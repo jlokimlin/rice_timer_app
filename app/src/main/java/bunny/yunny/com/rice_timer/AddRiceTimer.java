@@ -8,17 +8,48 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import shortbread.Shortbread;
+import shortbread.Shortcut;
+
 
 public class AddRiceTimer extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Shortbread.create(this);
         setContentView(R.layout.activity_add_rice_timer);
     }
 
-    public void startRice(View v) {
-        // Set the 3.5 min timer
+    public void setTimer(final String message, final int timer_length) {
+        new Thread(new Runnable() {
+            public void run() {
+                Intent met = new Intent(AlarmClock.ACTION_SET_TIMER);
+                met.putExtra(AlarmClock.EXTRA_LENGTH, timer_length);
+                met.putExtra(AlarmClock.EXTRA_MESSAGE, message);
+                met.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                startActivity(met);
+                System.out.println("Set timer of len " + timer_length + " seconds with message " + message);
+            }
+        }).start();
+    }
+
+    public void metronome(View w) {
+        int three_minutes_in_seconds = 180;
+        int timer_length = three_minutes_in_seconds;
+        for (int i = 0; i < 16; i++) {
+            try {
+                Thread.sleep(1000);
+                setTimer("Flip " + i, timer_length);
+                timer_length = timer_length + three_minutes_in_seconds - 1;
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Shortcut(id = "startRiceId", icon = R.drawable.myshape, shortLabel = "Long grain rice")
+    public void startRice() {
         try {
             Intent i = new Intent(AlarmClock.ACTION_SET_TIMER);
             i.putExtra(AlarmClock.EXTRA_LENGTH, 210);
@@ -42,6 +73,11 @@ public class AddRiceTimer extends Activity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startRice(View v) {
+        // Set the 3.5 min timer
+        startRice();
     }
 /*    public void startJasmine(View v) {
         Intent i =new Intent(AlarmClock.ACTION_SET_TIMER);
