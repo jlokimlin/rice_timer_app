@@ -15,9 +15,9 @@ import shortbread.Shortcut;
 
 public class AddRiceTimer extends Activity {
 
-    public static final int REST_RICE = 1500;
-    public static final int COOK_RICE = 900;
-    public static final int BRING_RICE_TO_BOIL = 210;
+    public static final int REST_RICE = 25;
+    public static final int COOK_RICE = 15;
+    public static final float BRING_RICE_TO_BOIL = 3.5f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +26,10 @@ public class AddRiceTimer extends Activity {
         setContentView(R.layout.activity_add_rice_timer);
     }
 
-    public void setTimer(final String message, final int seconds) {
+    public void setTimer(final String message, final float minutes) {
         new Thread(new Runnable() {
             public void run() {
+                int seconds = (int)(60 * minutes);
                 Intent met = new Intent(AlarmClock.ACTION_SET_TIMER);
                 met.putExtra(AlarmClock.EXTRA_LENGTH, seconds);
                 met.putExtra(AlarmClock.EXTRA_MESSAGE, message);
@@ -41,13 +42,13 @@ public class AddRiceTimer extends Activity {
     }
 
     public void metronome(View w) {
-        int three_minutes_in_seconds = 180;
-        int timer_length = three_minutes_in_seconds;
+        int three_minutes = 3;
+        int timer_length = three_minutes;
         for (int i = 0; i < 16; i++) {
             try {
                 Thread.sleep(1000);
                 setTimer("Flip " + i, timer_length);
-                timer_length = timer_length + three_minutes_in_seconds - 1;
+                timer_length = timer_length + three_minutes - 1;
             } catch(Exception e) {
                 e.printStackTrace();
             }
