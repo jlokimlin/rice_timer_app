@@ -48,7 +48,7 @@ public class AddRiceTimer extends Activity {
             try {
                 Thread.sleep(1000);
                 setTimer("Flip " + i, timer_length);
-                timer_length = timer_length + three_minutes - 1;
+                timer_length = timer_length + three_minutes;
             } catch(Exception e) {
                 e.printStackTrace();
             }
@@ -123,7 +123,9 @@ public class AddRiceTimer extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
+
 }
