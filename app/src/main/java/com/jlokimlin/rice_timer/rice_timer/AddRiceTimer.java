@@ -37,6 +37,7 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
     private ExecutorService singleThreadPool;
     private Map<Integer, String> timers = new HashMap<>();
     private TextView intervalTextView;
+    private TextView numberOfTimesTextView;
     private static final int THREE_MINUTES = 3;
     private SharedPreferences sharedPref;
 
@@ -47,7 +48,12 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         setContentView(R.layout.activity_add_rice_timer);
         singleThreadPool = Executors.newFixedThreadPool(1);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-
+        intervalTextView = (TextView)findViewById(R.id.intervalTextView);
+        numberOfTimesTextView = (TextView)findViewById(R.id.numberOfTimesTextView);
+        SeekBar intervalSeekBar = (SeekBar)findViewById(R.id.intervalMinutesSeekBar);
+        SeekBar numberOfTimesSeekBar = (SeekBar)findViewById(R.id.numberOfTimesSeekBar);
+        intervalSeekBar.setOnSeekBarChangeListener(this);
+        numberOfTimesSeekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -71,7 +77,7 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     @Shortcut(id = "startRiceId", icon = R.drawable.myshape, shortLabel = "Long grain rice")
-    private void startRice() {
+    public void startRice() {
 
 //        int defaultValue = getResources().getInteger(R.string.saved_high_score_default);
         long riceRestMinutes = sharedPref.getInt(getString(R.string.rest_key), DEFAULT_REST_RICE);
@@ -119,12 +125,15 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        Log.v("Timer App", "On Progress Changed: " + progress);
         int seekBarId = seekBar.getId();
-        if(seekBarId == R.layout.activity_add_rice_timer)
-        intervalTextView.setText("Every " + progress  + " minutes");
-        sharedPref.edit().putInt(getString(R.string.metronome_interval), progress);
-        sharedPref.edit().putInt(getString(R.string.metronome_count), progress);
-        sharedPref.edit().apply();
+        if (seekBarId == R.id.intervalMinutesSeekBar) {
+            sharedPref.edit().putInt(getString(R.string.metronome_interval), progress).apply();
+            intervalTextView.setText("Every " + progress  + " minutes");
+        } else if (seekBarId == R.id.numberOfTimesSeekBar) {
+            sharedPref.edit().putInt(getString(R.string.metronome_count), progress).apply();
+            numberOfTimesTextView.setText(progress  + " times" );
+        }
     }
 
     @Override
