@@ -1,7 +1,9 @@
 package com.jlokimlin.rice_timer.rice_timer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.AlarmClock;
 import android.util.Log;
@@ -25,15 +27,18 @@ import shortbread.Shortcut;
  */
 public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeListener{
 
-    private static final int REST_RICE = 25;
+    private static final int DEFAULT_REST_RICE = 25;
     private static final int COOK_RICE = 15;
     private static final float BRING_RICE_TO_BOIL = 3.5f;
-    public static final int SLEEP_TIME_MILLIS = 1000;
-    public static final int SECONDS_IN_MINUTE = 60;
+    private static final int SLEEP_TIME_MILLIS = 1000;
+    private static final int SECONDS_IN_MINUTE = 60;
+    private static final int DEFAULT_METRONOME_INTERVAL_MINUTES = 2;
+    private static final int DEFAULT_METRONOME_COUNT = 6;
     private ExecutorService singleThreadPool;
     private Map<Integer, String> timers = new HashMap<>();
     private TextView intervalTextView;
-    public static final int THREE_MINUTES = 3;
+    private static final int THREE_MINUTES = 3;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,8 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         Shortbread.create(this);
         setContentView(R.layout.activity_add_rice_timer);
         singleThreadPool = Executors.newFixedThreadPool(1);
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
+
     }
 
     @Override
@@ -49,12 +56,14 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     public void metronome(View v) {
-        int timer_length = THREE_MINUTES;
-        for (int i = 0; i < 16; i++) {
+        int metronomeInterval = sharedPref.getInt(getString(R.string.metronome_interval), DEFAULT_METRONOME_INTERVAL_MINUTES);
+        float numberOfTimers = sharedPref.getInt(getString(R.string.metronome_count), DEFAULT_METRONOME_COUNT);
+        int timerLengthMinutes = metronomeInterval;
+        for (int i = 0; i < numberOfTimers; i++) {
             try {
                 Thread.sleep(SLEEP_TIME_MILLIS);
-                setTimer("Flip " + i, timer_length);
-                timer_length = timer_length + THREE_MINUTES;
+                setTimer("Flip " + i, timerLengthMinutes);
+                timerLengthMinutes = timerLengthMinutes + metronomeInterval;
             } catch(Exception e) {
                 e.printStackTrace();
             }
@@ -63,6 +72,11 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
 
     @Shortcut(id = "startRiceId", icon = R.drawable.myshape, shortLabel = "Long grain rice")
     private void startRice() {
+
+//        int defaultValue = getResources().getInteger(R.string.saved_high_score_default);
+        long riceRestMinutes = sharedPref.getInt(getString(R.string.rest_key), DEFAULT_REST_RICE);
+        float bringRiceToBoilMinutes = sharedPref.getFloat(getString(R.string.boil_key), BRING_RICE_TO_BOIL);
+        long cookRiceMinutes = sharedPref.getInt(getString(R.string.cook_key), COOK_RICE);
         try {
             Log.v("Rice timer", "Started rice timer");
             setTimer("Boil rice", BRING_RICE_TO_BOIL);
@@ -71,7 +85,7 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
             setTimer("Cook rice", COOK_RICE);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Rest rice
-            setTimer("Rest rice", REST_RICE);
+            setTimer("Rest rice", riceRestMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,7 +119,12 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        intervalTextView.setText("Every " + progress / 15 + " minutes");
+        int seekBarId = seekBar.getId();
+        if(seekBarId == R.layout.activity_add_rice_timer)
+        intervalTextView.setText("Every " + progress  + " minutes");
+        sharedPref.edit().putInt(getString(R.string.metronome_interval), progress);
+        sharedPref.edit().putInt(getString(R.string.metronome_count), progress);
+        sharedPref.edit().apply();
     }
 
     @Override

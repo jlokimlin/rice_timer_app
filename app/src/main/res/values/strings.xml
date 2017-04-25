@@ -6,5 +6,10 @@
     <string name="metronome_button">metronone timer</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_hello_world">HelloWorldActivity</string>
+    <string name="rest_key">rest</string>
+    <string name="boil_key">boil</string>
+    <string name="cook_key">cook</string>
+    <string name="metronome_interval">metronome_key</string>
+    <string name="metronome_count">metronome_count_key</string>
 
 </resources>
