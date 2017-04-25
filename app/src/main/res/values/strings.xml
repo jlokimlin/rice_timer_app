@@ -2,8 +2,9 @@
 <resources>
 
     <string name="app_name">RICE TIMER</string>
-    <string name="timer_button">rice timer</string>
+    <string name="timer_button">Set Rice Timer</string>
     <string name="metronome_button">metronone timer</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_hello_world">HelloWorldActivity</string>
 
 </resources>

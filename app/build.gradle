@@ -5,7 +5,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "bunny.yunny.com.rice_timer"
+        applicationId "com.jlokimlin.rice_timer"
         minSdkVersion 19
         targetSdkVersion 20
         versionCode 1

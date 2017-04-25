@@ -1,4 +1,4 @@
-package bunny.yunny.com.rice_timer;
+package com.jlokimlin.rice_timer.rice_timer;
 
         import java.util.Random;
 
@@ -10,6 +10,8 @@ package bunny.yunny.com.rice_timer;
         import android.content.Intent;
         import android.util.Log;
         import android.widget.RemoteViews;
+
+        import bunny.yunny.com.rice_timer.R;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
