@@ -13,12 +13,12 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.jlokimlin.rice_timer.R;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import bunny.yunny.com.rice_timer.R;
 
 /**
  *
