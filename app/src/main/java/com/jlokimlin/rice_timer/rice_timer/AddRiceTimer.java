@@ -19,8 +19,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import bunny.yunny.com.rice_timer.R;
-import shortbread.Shortbread;
-import shortbread.Shortcut;
 
 /**
  *
@@ -28,8 +26,8 @@ import shortbread.Shortcut;
 public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeListener{
 
     private static final int DEFAULT_REST_RICE = 25;
-    private static final int COOK_RICE = 15;
-    private static final float BRING_RICE_TO_BOIL = 3.5f;
+    private static final int DEFAULT_COOK_RICE_MINUTES = 15;
+    private static final float BRING_RICE_TO_BOIL_MINUTES = 3.5f;
     private static final int SLEEP_TIME_MILLIS = 1000;
     private static final int SECONDS_IN_MINUTE = 60;
     private static final int DEFAULT_METRONOME_INTERVAL_MINUTES = 2;
@@ -44,7 +42,6 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Shortbread.create(this);
         setContentView(R.layout.activity_add_rice_timer);
         singleThreadPool = Executors.newFixedThreadPool(1);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -76,19 +73,18 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         }
     }
 
-    @Shortcut(id = "startRiceId", icon = R.drawable.myshape, shortLabel = "Long grain rice")
     public void startRice() {
 
 //        int defaultValue = getResources().getInteger(R.string.saved_high_score_default);
         long riceRestMinutes = sharedPref.getInt(getString(R.string.rest_key), DEFAULT_REST_RICE);
-        float bringRiceToBoilMinutes = sharedPref.getFloat(getString(R.string.boil_key), BRING_RICE_TO_BOIL);
-        long cookRiceMinutes = sharedPref.getInt(getString(R.string.cook_key), COOK_RICE);
+        float bringRiceToBoilMinutes = sharedPref.getFloat(getString(R.string.boil_key), BRING_RICE_TO_BOIL_MINUTES);
+        long cookRiceMinutes = sharedPref.getInt(getString(R.string.cook_key), DEFAULT_COOK_RICE_MINUTES);
         try {
             Log.v("Rice timer", "Started rice timer");
-            setTimer("Boil rice", BRING_RICE_TO_BOIL);
+            setTimer("Boil rice", BRING_RICE_TO_BOIL_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Set the 15 min timer
-            setTimer("Cook rice", COOK_RICE);
+            setTimer("Cook rice", DEFAULT_COOK_RICE_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Rest rice
             setTimer("Rest rice", riceRestMinutes);
