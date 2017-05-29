@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.jlokimlin.rice_timer.R;
@@ -23,7 +22,7 @@ import java.util.concurrent.Executors;
 /**
  *
  */
-public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeListener{
+public class AddRiceTimer extends Activity {
 
     private static final int DEFAULT_REST_RICE = 25;
     private static final int DEFAULT_COOK_RICE_MINUTES = 15;
@@ -45,12 +44,6 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         setContentView(R.layout.activity_add_rice_timer);
         singleThreadPool = Executors.newFixedThreadPool(1);
         sharedPref = getPreferences(Context.MODE_PRIVATE);
-        intervalTextView = (TextView)findViewById(R.id.intervalTextView);
-        numberOfTimesTextView = (TextView)findViewById(R.id.numberOfTimesTextView);
-        SeekBar intervalSeekBar = (SeekBar)findViewById(R.id.intervalMinutesSeekBar);
-        SeekBar numberOfTimesSeekBar = (SeekBar)findViewById(R.id.numberOfTimesSeekBar);
-        intervalSeekBar.setOnSeekBarChangeListener(this);
-        numberOfTimesSeekBar.setOnSeekBarChangeListener(this);
     }
 
     @Override
@@ -58,35 +51,20 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         Log.v("ActivityResult", "Timer started. Request Code: " + requestCode + " Result: " + resultCode);
     }
 
-    public void metronome(View v) {
-        int metronomeInterval = sharedPref.getInt(getString(R.string.metronome_interval), DEFAULT_METRONOME_INTERVAL_MINUTES);
-        float numberOfTimers = sharedPref.getInt(getString(R.string.metronome_count), DEFAULT_METRONOME_COUNT);
-        int timerLengthMinutes = metronomeInterval;
-        for (int i = 0; i < numberOfTimers; i++) {
-            try {
-                Thread.sleep(SLEEP_TIME_MILLIS);
-                setTimer("Flip " + i, timerLengthMinutes);
-                timerLengthMinutes = timerLengthMinutes + metronomeInterval;
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void startRice() {
 
-//        int defaultValue = getResources().getInteger(R.string.saved_high_score_default);
         long riceRestMinutes = sharedPref.getInt(getString(R.string.rest_key), DEFAULT_REST_RICE);
         float bringRiceToBoilMinutes = sharedPref.getFloat(getString(R.string.boil_key), BRING_RICE_TO_BOIL_MINUTES);
         long cookRiceMinutes = sharedPref.getInt(getString(R.string.cook_key), DEFAULT_COOK_RICE_MINUTES);
         try {
             Log.v("Rice timer", "Started rice timer");
+            // Set bring to boil rice timer
             setTimer("Boil rice", BRING_RICE_TO_BOIL_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
-            // Set the 15 min timer
+            // Set cook rice timer
             setTimer("Cook rice", DEFAULT_COOK_RICE_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
-            // Rest rice
+            // Set rest rice timer
             setTimer("Rest rice", riceRestMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
         } catch (Exception e) {
@@ -95,7 +73,6 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
     }
 
     public void startRice(View v) {
-        // Set the 3.5 min timer
         startRice();
     }
 
@@ -117,29 +94,6 @@ public class AddRiceTimer extends Activity implements SeekBar.OnSeekBarChangeLis
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        Log.v("Timer App", "On Progress Changed: " + progress);
-        int seekBarId = seekBar.getId();
-        if (seekBarId == R.id.intervalMinutesSeekBar) {
-            sharedPref.edit().putInt(getString(R.string.metronome_interval), progress).apply();
-            intervalTextView.setText("Every " + progress  + " minutes");
-        } else if (seekBarId == R.id.numberOfTimesSeekBar) {
-            sharedPref.edit().putInt(getString(R.string.metronome_count), progress).apply();
-            numberOfTimesTextView.setText(progress  + " times" );
-        }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 
     private void setTimer(final String message, final float minutes) {
