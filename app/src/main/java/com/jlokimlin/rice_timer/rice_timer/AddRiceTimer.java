@@ -22,9 +22,9 @@ import java.util.concurrent.Executors;
  */
 public class AddRiceTimer extends Activity {
 
-    private static final int DEFAULT_REST_RICE = 25;
-    private static final int DEFAULT_COOK_RICE_MINUTES = 15;
-    private static final float BRING_RICE_TO_BOIL_MINUTES = 3.5f;
+    private static final float DEFAULT_BRING_RICE_TO_BOIL_MINUTES = 3.5f;
+    private static final float DEFAULT_COOK_RICE_MINUTES = 11.5f;
+    private static final float DEFAULT_REST_RICE_MINUTES = 10.0f;
     private static final int SLEEP_TIME_MILLIS = 1000;
     private static final int SECONDS_IN_MINUTE = 60;
     private ExecutorService singleThreadPool;
@@ -45,19 +45,24 @@ public class AddRiceTimer extends Activity {
 
     public void startRice() {
 
-        long riceRestMinutes = sharedPref.getInt(getString(R.string.rest_key), DEFAULT_REST_RICE);
-        float bringRiceToBoilMinutes = sharedPref.getFloat(getString(R.string.boil_key), BRING_RICE_TO_BOIL_MINUTES);
-        long cookRiceMinutes = sharedPref.getInt(getString(R.string.cook_key), DEFAULT_COOK_RICE_MINUTES);
+        String sharedPrefBoilMinutes = sharedPref.getString(getString(R.string.boil_key), String.valueOf(DEFAULT_BRING_RICE_TO_BOIL_MINUTES));
+        String sharedPrefCookMinutes = sharedPref.getString(getString(R.string.cook_key), String.valueOf(DEFAULT_COOK_RICE_MINUTES));
+        String sharedPrefRestMinutes = sharedPref.getString(getString(R.string.rest_key), String.valueOf(DEFAULT_REST_RICE_MINUTES));
+
+        float timerBoilMinutes = Float.valueOf(sharedPrefBoilMinutes);
+        float timerCookMinutes = timerBoilMinutes + Float.valueOf(sharedPrefCookMinutes);
+        float timerRestMinutes = timerCookMinutes + Float.valueOf(sharedPrefRestMinutes);
+
         try {
             Log.v("Rice timer", "Started rice timer");
             // Set bring to boil rice timer
-            setTimer(getString(R.string.boil_rice_timer_name), BRING_RICE_TO_BOIL_MINUTES);
+            setTimer(getString(R.string.boil_rice_timer_name), timerBoilMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Set cook rice timer
-            setTimer(getString(R.string.cook_rice_timer_name), DEFAULT_COOK_RICE_MINUTES);
+            setTimer(getString(R.string.cook_rice_timer_name), timerCookMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Set rest rice timer
-            setTimer(getString(R.string.rest_rice_timer_name), riceRestMinutes);
+            setTimer(getString(R.string.rest_rice_timer_name), timerRestMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
         } catch (Exception e) {
             e.printStackTrace();
