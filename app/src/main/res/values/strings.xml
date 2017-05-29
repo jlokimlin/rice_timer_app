@@ -16,5 +16,6 @@
     <string name="boil_summary">Time it takes for rice to come to a rolling boil.</string>
     <string name="cook_summary">Additional cooking time, after reducing heat to a simmer.</string>
     <string name="rest_summary">The resting period after cooking.</string>
+    <string name="long_grain_instructions">Perfect long-grain rice: \n0: Do not rinse rice. \n1: Put rice on high. \n2: Reduce to low and stir.  \n3: Remove from heat and place cloth under lid. \n4: Eat</string>
 
 </resources>

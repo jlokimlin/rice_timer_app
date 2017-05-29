@@ -22,9 +22,9 @@ import java.util.concurrent.Executors;
  */
 public class AddRiceTimer extends Activity {
 
-    private static final float DEFAULT_BRING_RICE_TO_BOIL_MINUTES = 3.5f;
-    private static final float DEFAULT_COOK_RICE_MINUTES = 11.5f;
-    private static final float DEFAULT_REST_RICE_MINUTES = 10.0f;
+    private static final String DEFAULT_BRING_RICE_TO_BOIL_MINUTES = "3.5f";
+    private static final String DEFAULT_COOK_RICE_MINUTES = "11.5f";
+    private static final String DEFAULT_REST_RICE_MINUTES = "10.0f";
     private static final int SLEEP_TIME_MILLIS = 1000;
     private static final int SECONDS_IN_MINUTE = 60;
     private ExecutorService singleThreadPool;
@@ -38,16 +38,14 @@ public class AddRiceTimer extends Activity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v("ActivityResult", "Timer started. Request Code: " + requestCode + " Result: " + resultCode);
-    }
-
     public void startRice() {
 
-        String sharedPrefBoilMinutes = sharedPref.getString(getString(R.string.boil_key), String.valueOf(DEFAULT_BRING_RICE_TO_BOIL_MINUTES));
-        String sharedPrefCookMinutes = sharedPref.getString(getString(R.string.cook_key), String.valueOf(DEFAULT_COOK_RICE_MINUTES));
-        String sharedPrefRestMinutes = sharedPref.getString(getString(R.string.rest_key), String.valueOf(DEFAULT_REST_RICE_MINUTES));
+        String sharedPrefBoilMinutes = sharedPref.getString(getString(R.string.boil_key),
+                DEFAULT_BRING_RICE_TO_BOIL_MINUTES);
+        String sharedPrefCookMinutes = sharedPref.getString(getString(R.string.cook_key),
+                DEFAULT_COOK_RICE_MINUTES);
+        String sharedPrefRestMinutes = sharedPref.getString(getString(R.string.rest_key),
+                DEFAULT_REST_RICE_MINUTES);
 
         float timerBoilMinutes = Float.valueOf(sharedPrefBoilMinutes);
         float timerCookMinutes = timerBoilMinutes + Float.valueOf(sharedPrefCookMinutes);

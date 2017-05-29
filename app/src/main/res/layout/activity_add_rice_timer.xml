@@ -24,14 +24,14 @@
         android:onClick="startRice"
         android:id="@+id/button"
         android:background="#ff333333"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textColor="#ffffffff"
         android:layout_marginTop="28dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Perfect rice:\n0: Put rice on high.\n1: Reduce to low and stir. \n2: Remove from heat and place cloth under lid.\n3: Eat"
+        android:text="@string/long_grain_instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"

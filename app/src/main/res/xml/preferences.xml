@@ -5,17 +5,17 @@
     android:title="@string/boil_rice_settings_name"
     android:summary="@string/boil_summary"
     android:inputType="numberDecimal"
-    android:defaultValue="3.5" />
+    android:defaultValue="3.5f" />
     <EditTextPreference
         android:key="@string/cook_key"
         android:title="@string/cook_rice_settings_name"
         android:summary="@string/cook_summary"
         android:inputType="numberDecimal"
-        android:defaultValue="11.5" />
+        android:defaultValue="11.5f" />
     <EditTextPreference
         android:key="@string/rest_key"
         android:title="@string/rest_rice_settings_name"
         android:summary="@string/rest_summary"
         android:inputType="numberDecimal"
-        android:defaultValue="10" />
+        android:defaultValue="10.0f" />
 </PreferenceScreen>
