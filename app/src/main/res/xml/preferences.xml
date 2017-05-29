@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<EditTextPreference
+    android:key="@string/boil_key"
+    android:title="@string/boil_rice_settings_name"
+    android:summary="@string/boil_summary"
+    android:inputType="numberDecimal"
+    android:defaultValue="3.5" />
+    <EditTextPreference
+        android:key="@string/cook_key"
+        android:title="@string/cook_rice_settings_name"
+        android:summary="@string/cook_summary"
+        android:inputType="numberDecimal"
+        android:defaultValue="11.5" />
+    <EditTextPreference
+        android:key="@string/rest_key"
+        android:title="@string/rest_rice_settings_name"
+        android:summary="@string/rest_summary"
+        android:inputType="numberDecimal"
+        android:defaultValue="10" />
+</PreferenceScreen>

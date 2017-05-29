@@ -20,7 +20,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/timer_button"
+        android:text="@string/rice_timer_button"
         android:onClick="startRice"
         android:id="@+id/button"
         android:background="#ff333333"

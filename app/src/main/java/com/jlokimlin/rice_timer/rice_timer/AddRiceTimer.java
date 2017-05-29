@@ -1,21 +1,19 @@
 package com.jlokimlin.rice_timer.rice_timer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.AlarmClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jlokimlin.rice_timer.R;
+import com.jlokimlin.rice_timer.rice_timer.preferences.RiceTimerPreferencesActivity;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,13 +27,7 @@ public class AddRiceTimer extends Activity {
     private static final float BRING_RICE_TO_BOIL_MINUTES = 3.5f;
     private static final int SLEEP_TIME_MILLIS = 1000;
     private static final int SECONDS_IN_MINUTE = 60;
-    private static final int DEFAULT_METRONOME_INTERVAL_MINUTES = 2;
-    private static final int DEFAULT_METRONOME_COUNT = 6;
     private ExecutorService singleThreadPool;
-    private Map<Integer, String> timers = new HashMap<>();
-    private TextView intervalTextView;
-    private TextView numberOfTimesTextView;
-    private static final int THREE_MINUTES = 3;
     private SharedPreferences sharedPref;
 
     @Override
@@ -43,7 +35,7 @@ public class AddRiceTimer extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_rice_timer);
         singleThreadPool = Executors.newFixedThreadPool(1);
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     }
 
     @Override
@@ -59,13 +51,13 @@ public class AddRiceTimer extends Activity {
         try {
             Log.v("Rice timer", "Started rice timer");
             // Set bring to boil rice timer
-            setTimer("Boil rice", BRING_RICE_TO_BOIL_MINUTES);
+            setTimer(getString(R.string.boil_rice_timer_name), BRING_RICE_TO_BOIL_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Set cook rice timer
-            setTimer("Cook rice", DEFAULT_COOK_RICE_MINUTES);
+            setTimer(getString(R.string.cook_rice_timer_name), DEFAULT_COOK_RICE_MINUTES);
             Thread.sleep(SLEEP_TIME_MILLIS);
             // Set rest rice timer
-            setTimer("Rest rice", riceRestMinutes);
+            setTimer(getString(R.string.rest_rice_timer_name), riceRestMinutes);
             Thread.sleep(SLEEP_TIME_MILLIS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +82,8 @@ public class AddRiceTimer extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, RiceTimerPreferencesActivity.class);
+            startActivity(i);
             return true;
         } else {
             return super.onOptionsItemSelected(item);

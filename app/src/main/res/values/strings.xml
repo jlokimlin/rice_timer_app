@@ -2,14 +2,19 @@
 <resources>
 
     <string name="app_name">Rice Timer</string>
-    <string name="timer_button">Set Rice Timer</string>
-    <string name="metronome_button">Set Metronome Timer</string>
+    <string name="rice_timer_button">Set Rice Timer</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_hello_world">HelloWorldActivity</string>
-    <string name="rest_key">rest</string>
-    <string name="boil_key">boil</string>
-    <string name="cook_key">cook</string>
-    <string name="metronome_interval">metronome_key</string>
-    <string name="metronome_count">metronome_count_key</string>
+    <string name="boil_key">boil_minutes</string>
+    <string name="cook_key">cook_minutes</string>
+    <string name="rest_key">rest_minutes</string>
+    <string name="boil_rice_timer_name">Boil Rice</string>
+    <string name="cook_rice_timer_name">Cook Rice</string>
+    <string name="rest_rice_timer_name">Rest Rice</string>
+    <string name="boil_rice_settings_name">Time in Minutes to Boil Rice</string>
+    <string name="cook_rice_settings_name">Time in Minutes to Cook Rice</string>
+    <string name="rest_rice_settings_name">Time in Minutes to Rest Rice</string>
+    <string name="boil_summary">Time it takes for rice to come to a rolling boil.</string>
+    <string name="cook_summary">Additional cooking time, after reducing heat to a simmer.</string>
+    <string name="rest_summary">The resting period after cooking.</string>
 
 </resources>
