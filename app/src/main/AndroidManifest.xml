@@ -23,7 +23,9 @@
             android:name="com.jlokimlin.rice_timer.rice_timer.preferences.RiceTimerPreferencesActivity"
             android:label="Rice Timer Preferences">
         </activity>
-
+        <service
+            android:name=".rice_timer.AddRiceTimer$RiceTimerService"
+            android:exported="false"/>
     </application>
 
 </manifest>

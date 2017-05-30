@@ -1,6 +1,6 @@
-#**Rice Timer App**
+# **Rice Timer**
 
-This is my rice timer project, where I get to practice Android development and develop something free and useful to home cooks.
+This is my rice timer project, where I get to practice Android development and develop something free and practical for home cooks.
 
 ## Reporting bugs/requesting features
 Please file bugs and suggestions as Github issues.

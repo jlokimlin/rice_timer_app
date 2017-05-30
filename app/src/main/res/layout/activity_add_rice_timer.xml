@@ -9,14 +9,6 @@
     tools:context="com.jlokimlin.rice_timer.rice_timer.AddRiceTimer"
     android:background="#ff000000">
 
-    <ImageSwitcher
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageSwitcher"
-        android:layout_alignBottom="@+id/button"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="150dp" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +28,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:textColor="@android:color/white"
-        android:layout_below="@+id/imageSwitcher"
+        android:layout_marginTop="46dp"
+        android:layout_below="@+id/button"
         android:layout_alignStart="@+id/button" />
 
 </RelativeLayout>

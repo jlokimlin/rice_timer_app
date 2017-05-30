@@ -7,7 +7,7 @@ import android.preference.PreferenceFragment;
 import com.jlokimlin.rice_timer.R;
 
 /**
- * Created by jlokimlin on 5/29/17.
+ * A preferences activity to set timer lengths in minutes.
  */
 
 public class RiceTimerPreferencesActivity extends PreferenceActivity {

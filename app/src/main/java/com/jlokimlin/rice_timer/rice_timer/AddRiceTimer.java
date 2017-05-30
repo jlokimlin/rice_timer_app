@@ -1,6 +1,7 @@
 package com.jlokimlin.rice_timer.rice_timer;
 
 import android.app.Activity;
+import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,61 +15,22 @@ import android.view.View;
 import com.jlokimlin.rice_timer.R;
 import com.jlokimlin.rice_timer.rice_timer.preferences.RiceTimerPreferencesActivity;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
- *
+ * A simple rice timer app, which sets three user-configurable timers for making perfect rice.
  */
 public class AddRiceTimer extends Activity {
-
-    private static final String DEFAULT_BRING_RICE_TO_BOIL_MINUTES = "3.5f";
-    private static final String DEFAULT_COOK_RICE_MINUTES = "11.5f";
-    private static final String DEFAULT_REST_RICE_MINUTES = "10.0f";
-    private static final int SLEEP_TIME_MILLIS = 1000;
-    private static final int SECONDS_IN_MINUTE = 60;
-    private ExecutorService singleThreadPool;
-    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_rice_timer);
-        singleThreadPool = Executors.newFixedThreadPool(1);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-    }
-
-    public void startRice() {
-
-        String sharedPrefBoilMinutes = sharedPref.getString(getString(R.string.boil_key),
-                DEFAULT_BRING_RICE_TO_BOIL_MINUTES);
-        String sharedPrefCookMinutes = sharedPref.getString(getString(R.string.cook_key),
-                DEFAULT_COOK_RICE_MINUTES);
-        String sharedPrefRestMinutes = sharedPref.getString(getString(R.string.rest_key),
-                DEFAULT_REST_RICE_MINUTES);
-
-        float timerBoilMinutes = Float.valueOf(sharedPrefBoilMinutes);
-        float timerCookMinutes = timerBoilMinutes + Float.valueOf(sharedPrefCookMinutes);
-        float timerRestMinutes = timerCookMinutes + Float.valueOf(sharedPrefRestMinutes);
-
-        try {
-            Log.v("Rice timer", "Started rice timer");
-            // Set bring to boil rice timer
-            setTimer(getString(R.string.boil_rice_timer_name), timerBoilMinutes);
-            Thread.sleep(SLEEP_TIME_MILLIS);
-            // Set cook rice timer
-            setTimer(getString(R.string.cook_rice_timer_name), timerCookMinutes);
-            Thread.sleep(SLEEP_TIME_MILLIS);
-            // Set rest rice timer
-            setTimer(getString(R.string.rest_rice_timer_name), timerRestMinutes);
-            Thread.sleep(SLEEP_TIME_MILLIS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void startRice(View v) {
-        startRice();
+        Intent intent = new Intent(this, RiceTimerService.class);
+        startService(intent);
     }
 
     @Override
@@ -93,21 +55,66 @@ public class AddRiceTimer extends Activity {
         }
     }
 
-    private void setTimer(final String message, final float minutes) {
-        singleThreadPool.submit(new Runnable() {
-            public void run() {
-                int seconds = getMinutesInSeconds(minutes);
-                Intent setTimerIntent = new Intent(AlarmClock.ACTION_SET_TIMER);
-                setTimerIntent.putExtra(AlarmClock.EXTRA_LENGTH, seconds);
-                setTimerIntent.putExtra(AlarmClock.EXTRA_MESSAGE, message);
-                setTimerIntent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-                startActivityForResult(setTimerIntent, seconds);
-                Log.v("Rice timer", "Set timer of len " + seconds + " seconds with message " + message);
-            }
-        });
-    }
+    public static class RiceTimerService extends IntentService {
+        private static final String DEFAULT_BRING_RICE_TO_BOIL_MINUTES = "3.5f";
+        private static final String DEFAULT_COOK_RICE_MINUTES = "11.5f";
+        private static final String DEFAULT_REST_RICE_MINUTES = "10.0f";
+        private static final int SECONDS_IN_MINUTE = 60;
 
-    private int getMinutesInSeconds(float minutes) {
-        return (int)(minutes * SECONDS_IN_MINUTE);
+        private SharedPreferences sharedPref;
+
+        public RiceTimerService() {
+            super("RiceTimerService");
+        }
+
+        @Override
+        protected void onHandleIntent(Intent intent) {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            startRiceTimer();
+        }
+
+        private void startRiceTimer() {
+            String sharedPrefBoilMinutes = sharedPref.getString(getString(R.string.boil_key),
+                    DEFAULT_BRING_RICE_TO_BOIL_MINUTES);
+            String sharedPrefCookMinutes = sharedPref.getString(getString(R.string.cook_key),
+                    DEFAULT_COOK_RICE_MINUTES);
+            String sharedPrefRestMinutes = sharedPref.getString(getString(R.string.rest_key),
+                    DEFAULT_REST_RICE_MINUTES);
+
+            float timerBoilMinutes = Float.valueOf(sharedPrefBoilMinutes);
+            float timerCookMinutes = timerBoilMinutes + Float.valueOf(sharedPrefCookMinutes);
+            float timerRestMinutes = timerCookMinutes + Float.valueOf(sharedPrefRestMinutes);
+
+            try {
+                Intent[] intents = new Intent[3];
+                Log.v("Rice timer", "Starting rice timer");
+                // Set bring to boil rice timer
+                intents[0] = createTimerIntent(getString(R.string.boil_rice_timer_name),
+                        timerBoilMinutes);
+                // Set cook rice timer
+                intents[1] = createTimerIntent(getString(R.string.cook_rice_timer_name),
+                        timerCookMinutes);
+                // Set rest rice timer
+                intents[2] = createTimerIntent(getString(R.string.rest_rice_timer_name),
+                        timerRestMinutes);
+                this.startActivities(intents);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        private Intent createTimerIntent(final String message, final float minutes) {
+            int seconds = getMinutesInSeconds(minutes);
+            Intent setTimerIntent = new Intent(AlarmClock.ACTION_SET_TIMER);
+            setTimerIntent.putExtra(AlarmClock.EXTRA_LENGTH, seconds);
+            setTimerIntent.putExtra(AlarmClock.EXTRA_MESSAGE, message);
+            setTimerIntent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            setTimerIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            return setTimerIntent;
+        }
+
+        private int getMinutesInSeconds(float minutes) {
+            return (int)(minutes * SECONDS_IN_MINUTE);
+        }
     }
 }
