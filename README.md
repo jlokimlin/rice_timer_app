@@ -9,7 +9,7 @@ This Android project is a simple, free, and practical timer for home cooks. The 
 Please file bugs and suggestions as Github issues.
 
 ## Developed by
-Jon Lo Kim Lin - jlokimlin@gmail.com
+Jon Lo Kim Lin - AwesomeRiceTimerApp@gmail.com
 
 ## License
 
