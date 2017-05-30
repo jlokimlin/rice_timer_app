@@ -1,6 +1,6 @@
 # **Rice Timer**
 
-This is my rice timer project, where I get to practice Android development and develop something free and practical for home cooks.
+This Android project is a simple, free, and practical timer for home cooks. The app utilizes the Android AlarmClock API added in KitKat to set timers in your native clock app. 
 
 ## Reporting bugs/requesting features
 Please file bugs and suggestions as Github issues.
