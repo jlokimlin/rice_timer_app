@@ -1,3 +1,5 @@
+# ![Logo](https://raw.githubusercontent.com/jlokimlin/rice_timer_app/master/graphics/rice_timer_app_feature_graphic.png)
+
 # **Rice Timer**
 
 This Android project is a simple, free, and practical timer for home cooks. The app utilizes the Android AlarmClock API added in KitKat to set timers in your native clock app. 
