@@ -28,3 +28,5 @@ Jon Lo Kim Lin - jlokimlin@gmail.com
     limitations under the License.
     
 The Rice Timer App icon by Mister Pixel from the Noun Project is licensed under [Creative Commons (CC) attribution license](https://creativecommons.org/licenses/by/2.0/).
+
+The [Cool! Fantastic! Amazing!](https://www.norio.be/android-feature-graphic-generator/) Android feature graphic by Litrik De Roy of norio is licensed under [Creative Commons (CC) attribution license](https://creativecommons.org/licenses/by/4.0/).
